@@ -1,5 +1,6 @@
 package com.sulistionoadi.belajar;
 
+import javax.annotation.PreDestroy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,4 +23,11 @@ public class JavaConcurrentReadwriteFileApplication {
         return pool;
     }
     
+    @PreDestroy
+    public void shutdownHook() throws InterruptedException{
+        while(taskExecutor().getActiveCount() > 0){
+            System.out.println("Waiting for shutdown...");
+            Thread.sleep(5000);
+        }
+    }
 }
